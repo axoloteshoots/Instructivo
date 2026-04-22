@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instructivo — Taller Axolote Azul</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #1a3a5c;
+    --azul-medio: #2e5f8a;
+    --azul-claro: #c8daea;
+    --blanco: #f5f0e8;
+    --kraft: #c4a882;
+    --kraft-oscuro: #8b6f47;
+    --acento: #4a90c4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--azul);
+    font-family: 'DM Mono', monospace;
+    color: var(--blanco);
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Textura de fondo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(74,144,196,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(196,168,130,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .pagina {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(200,218,234,0.2);
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .logo-texto {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--kraft);
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .titulo-principal {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--blanco);
+    margin-bottom: 8px;
+  }
+
+  .titulo-principal em {
+    font-style: italic;
+    color: var(--azul-claro);
+  }
+
+  .subtitulo {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(200,218,234,0.5);
+    margin-top: 16px;
+  }
+
+  /* INTRO */
+  .intro {
+    margin-bottom: 50px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .intro p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--azul-claro);
+    border-left: 2px solid var(--kraft);
+    padding-left: 20px;
+  }
+
+  /* CONTENIDO DEL KIT */
+  .seccion {
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .seccion:nth-child(3) { animation-delay: 0.3s; }
+  .seccion:nth-child(4) { animation-delay: 0.4s; }
+  .seccion:nth-child(5) { animation-delay: 0.5s; }
+  .seccion:nth-child(6) { animation-delay: 0.6s; }
+
+  .etiqueta-seccion {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--kraft);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .etiqueta-seccion::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(196,168,130,0.25);
+  }
+
+  .titulo-seccion {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--blanco);
+    margin-bottom: 20px;
+  }
+
+  /* LISTA DE CONTENIDO */
+  .contenido-lista {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+
+  .contenido-lista li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,218,234,0.1);
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(245,240,232,0.85);
+    transition: background 0.2s;
+  }
+
+  .contenido-lista li:hover {
+    background: rgba(255,255,255,0.07);
+  }
+
+  .icono {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .item-nombre {
+    font-weight: 400;
+    color: var(--blanco);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 13px;
+  }
+
+  .item-desc {
+    color: rgba(200,218,234,0.55);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  /* PASOS */
+  .pasos {
+    display: grid;
+    gap: 0;
+  }
+
+  .paso {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 20px;
+    position: relative;
+  }
+
+  .paso:not(:last-child) .paso-linea {
+    position: absolute;
+    left: 23px;
+    top: 48px;
+    bottom: 0;
+    width: 1px;
+    background: rgba(200,218,234,0.15);
+  }
+
+  .paso-numero {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,218,234,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--azul-claro);
+    flex-shrink: 0;
+    background: rgba(30,60,90,0.6);
+    position: relative;
+    z-index: 1;
+  }
+
+  .paso-contenido {
+    padding: 12px 0 32px 0;
+  }
+
+  .paso-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--blanco);
+    margin-bottom: 8px;
+  }
+
+  .paso-texto {
+    font-size: 12px;
+    line-height: 1.8;
+    color: rgba(200,218,234,0.7);
+  }
+
+  .paso-nota {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--kraft);
+    background: rgba(196,168,130,0.1);
+    border: 1px solid rgba(196,168,130,0.2);
+    padding: 6px 12px;
+    border-radius: 2px;
+  }
+
+  /* TIEMPOS */
+  .tiempos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .tiempo-card {
+    padding: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,218,234,0.1);
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .tiempo-valor {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--azul-claro);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .tiempo-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(200,218,234,0.45);
+  }
+
+  /* CUIDADOS */
+  .cuidados-lista {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+
+  .cuidados-lista li {
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(200,218,234,0.7);
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .cuidados-lista li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--kraft);
+    opacity: 0.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(200,218,234,0.1);
+    text-align: center;
+    animation: fadeUp 0.8s 0.7s ease both;
+  }
+
+  .footer-marca {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--azul-claro);
+    margin-bottom: 10px;
+  }
+
+  .footer-info {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(200,218,234,0.35);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  .firma-linea {
+    width: 60px;
+    height: 1px;
+    background: rgba(196,168,130,0.4);
+    margin: 20px auto;
+  }
+
+  /* DIVISOR */
+  .divisor {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0;
+    opacity: 0.3;
+  }
+  .divisor::before, .divisor::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--azul-claro);
+  }
+  .divisor span {
+    font-size: 14px;
+  }
+
+  /* Versión imprimible */
+  @media print {
+    body { background: white; color: #1a3a5c; }
+    body::before { display: none; }
+    .seccion { animation: none !important; }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-texto">Taller Axolote Azul</div>
+    <h1 class="titulo-principal">Bienvenidx a tu<br><em>primera exposición</em></h1>
+    <div class="subtitulo">Kit de cianotipia · Instrucciones de uso</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro seccion">
+    <p>Lo que tienes en las manos no es un juego de manualidades. Es una técnica fotográfica del siglo XIX que usa luz solar para imprimir imágenes sobre papel. Cada pieza que hagas será única, irrepetible — una fotografía hecha con el sol.</p>
+  </div>
+
+  <!-- CONTENIDO DEL KIT -->
+  <div class="seccion">
+    <div class="etiqueta-seccion">01 · contenido</div>
+    <h2 class="titulo-seccion">Lo que hay en tu kit</h2>
+    <ul class="contenido-lista">
+      <li>
+        <span class="icono">🖼️</span>
+        <div>
+          <span class="item-nombre">Marco de madera con acrílico</span>
+          <span class="item-desc">Tu herramienta de trabajo y soporte de exhibición. Hecho a mano. Retira la tapa trasera para armar tu composición, expón al sol y después úsalo para montar tu pieza terminada.</span>
+        </div>
+      </li>
+      <li>
+        <span class="icono">📋</span>
+        <div>
+          <span class="item-nombre">6 postales de papel Fabriano 210g</span>
+          <span class="item-desc">Pre-sensibilizadas con emulsión de cianotipia. Listas para exponer.</span>
+        </div>
+      </li>
+      <li>
+        <span class="icono">🌸</span>
+        <div>
+          <span class="item-nombre">Elemento para componer</span>
+          <span class="item-desc">Flor prensada, negativo fotográfico u objeto plano. Tu primer motivo.</span>
+        </div>
+      </li>
+      <li>
+        <span class="icono">💧</span>
+        <div>
+          <span class="item-nombre">Atomizador con agua oxigenada</span>
+          <span class="item-desc">Para acelerar el revelado y fijar el azul. Seguro y fácil de usar.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divisor"><span>✦</span></div>
+
+  <!-- PASOS -->
+  <div class="seccion">
+    <div class="etiqueta-seccion">02 · proceso</div>
+    <h2 class="titulo-seccion">Cómo hacer tu primera cianotipia</h2>
+
+    <div class="pasos">
+
+      <div class="paso">
+        <div class="paso-linea"></div>
+        <div class="paso-numero">1</div>
+        <div class="paso-contenido">
+          <div class="paso-titulo">Prepara el marco</div>
+          <p class="paso-texto">Retira la tapa trasera del marco. Coloca la postal sensibilizada sobre la base del marco con la cara amarilla hacia arriba. Encima acomoda tu elemento — flor prensada, negativo, hoja, lo que quieras fotografiar. Piénsalo como encuadrar una imagen: la posición importa, los espacios vacíos también.</p>
+          <span class="paso-nota">⚠ Trabaja en un espacio con poca luz directa mientras preparas</span>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="paso-linea"></div>
+        <div class="paso-numero">2</div>
+        <div class="paso-contenido">
+          <div class="paso-titulo">Asegura según tu motivo</div>
+          <p class="paso-texto">La forma de asegurar depende del objeto que uses:</p>
+          <ul style="margin-top:8px; padding-left:0; list-style:none; display:grid; gap:6px;">
+            <li style="font-size:12px; color:rgba(200,218,234,0.7); padding-left:16px; position:relative;"><span style="position:absolute;left:0;color:var(--kraft);">—</span><strong style="color:var(--blanco);">Objetos planos</strong> (negativos, flores prensadas): coloca el acrílico encima y asegura con los broches del marco. Listo para exponer.</li>
+            <li style="font-size:12px; color:rgba(200,218,234,0.7); padding-left:16px; position:relative;"><span style="position:absolute;left:0;color:var(--kraft);">—</span><strong style="color:var(--blanco);">Objetos con algo de grosor</strong> (naranja, flores frescas): coloca el acrílico encima y prensa con 2 a 4 pinzas en los bordes.</li>
+            <li style="font-size:12px; color:rgba(200,218,234,0.7); padding-left:16px; position:relative;"><span style="position:absolute;left:0;color:var(--kraft);">—</span><strong style="color:var(--blanco);">Objetos muy gruesos</strong> (taza, piedra, mano): coloca directamente sobre el papel sin acrílico y lleva al sol así.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="paso-linea"></div>
+        <div class="paso-numero">3</div>
+        <div class="paso-contenido">
+          <div class="paso-titulo">Expón al sol</div>
+          <p class="paso-texto">Lleva el marco completo al sol directo. La emulsión comenzará a cambiar de color: del amarillo-verde irá oscureciendo hacia azul intenso. Eso es la luz escribiendo sobre el papel.</p>
+          <span class="paso-nota">🌤 Ver tiempos recomendados abajo</span>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="paso-linea"></div>
+        <div class="paso-numero">4</div>
+        <div class="paso-contenido">
+          <div class="paso-titulo">Revelado</div>
+          <p class="paso-texto">Cuando los tonos se vean intensos, desmonta el marco y retira el motivo. Coloca la postal en una bandeja con agua suficiente para cubrirla y déjala reposar 1-2 minutos. Verás cómo aparece la imagen: el azul se fija, el fondo se lava.</p>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="paso-linea"></div>
+        <div class="paso-numero">5</div>
+        <div class="paso-contenido">
+          <div class="paso-titulo">El verdadero azul</div>
+          <p class="paso-texto">Aplica una ligera neblina de agua oxigenada sobre la superficie mojada. El azul prusiano se intensificará en segundos — es una reacción química visible, como ver revelar una fotografía. ¡Parece magia!</p>
+        </div>
+      </div>
+
+      <div class="paso">
+        <div class="paso-numero">6</div>
+        <div class="paso-contenido">
+          <div class="paso-titulo">Deja secar y monta</div>
+          <p class="paso-texto">Coloca la postal en un lugar plano y deja secar completamente. El azul seguirá ganando profundidad durante las primeras horas. Cuando esté seco, vuelve a armar el marco con tu pieza adentro — ya tienes una fotografía hecha con luz.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divisor"><span>✦</span></div>
+
+  <!-- TIEMPOS -->
+  <div class="seccion">
+    <div class="etiqueta-seccion">03 · referencia</div>
+    <h2 class="titulo-seccion">Tiempos de exposición</h2>
+    <p style="font-size:12px; color: rgba(200,218,234,0.6); margin-bottom: 20px; line-height:1.7;">Estos son puntos de partida. La luz nunca es igual dos veces — experimenta y encuentra tu propio tiempo.</p>
+    <div class="tiempos-grid">
+      <div class="tiempo-card">
+        <span class="tiempo-valor">3–5 min</span>
+        <span class="tiempo-label">Sol directo intenso</span>
+      </div>
+      <div class="tiempo-card">
+        <span class="tiempo-valor">8–12 min</span>
+        <span class="tiempo-label">Sol con nubes</span>
+      </div>
+      <div class="tiempo-card">
+        <span class="tiempo-valor">15–25 min</span>
+        <span class="tiempo-label">Día nublado</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divisor"><span>✦</span></div>
+
+  <!-- EXPERIMENTA -->
+  <div class="seccion">
+    <div class="etiqueta-seccion">04 · experimenta</div>
+    <h2 class="titulo-seccion">Más allá de las flores</h2>
+    <p style="font-size:12px; color: rgba(200,218,234,0.6); margin-bottom: 20px; line-height:1.7;">La cianotipia funciona con cualquier objeto que bloquee o filtre la luz. Aquí algunas ideas para explorar:</p>
+    <ul class="cuidados-lista">
+      <li><strong style="color:var(--blanco);">Telas transparentes</strong> — organza, tul o gasas crean texturas suaves y difuminadas, como si la imagen flotara</li>
+      <li><strong style="color:var(--blanco);">Envolturas de plástico arrugado</strong> — el plástico deja pasar la luz de forma irregular, genera patrones abstractos únicos</li>
+      <li><strong style="color:var(--blanco);">Negativos fotográficos</strong> — imprime tus fotos en acetato transparente y transfórmalas en cianotigrafías</li>
+      <li><strong style="color:var(--blanco);">Encajes y mallas</strong> — cualquier tejido con huecos crea patrones geométricos o florales dependiendo del diseño</li>
+      <li><strong style="color:var(--blanco);">Hojas y plantas frescas</strong> — a diferencia de las prensadas, las frescas tienen más grosor y crean bordes más difusos y orgánicos</li>
+      <li><strong style="color:var(--blanco);">Tu propia mano</strong> — apóyala directamente sobre el papel y expón. La sombra de tu mano es también una imagen.</li>
+      <li><strong style="color:var(--blanco);">Recortes de papel</strong> — siluetas, letras, formas geométricas cortadas en papel negro funcionan perfecto como negativos improvisados</li>
+    </ul>
+  </div>
+
+  <div class="divisor"><span>✦</span></div>
+
+  <!-- PROBLEMAS COMUNES -->
+  <div class="seccion">
+    <div class="etiqueta-seccion">05 · solución de problemas</div>
+    <h2 class="titulo-seccion">Algo salió raro — ¿qué pasó?</h2>
+    <p style="font-size:12px; color: rgba(200,218,234,0.6); margin-bottom: 24px; line-height:1.7;">La cianotipia es impredecible y eso es parte de su encanto. Pero si algo no salió como esperabas, aquí algunas pistas:</p>
+
+    <div style="display:grid; gap:14px;">
+
+      <div style="padding:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(200,218,234,0.1); border-radius:2px;">
+        <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--kraft); margin-bottom:6px;">La imagen quedó muy pálida o casi no se ve</div>
+        <p style="font-size:12px; color:rgba(200,218,234,0.7); line-height:1.7;">Le faltó exposición. La próxima vez deja más tiempo al sol o busca un momento del día con luz más intensa. También puede ser que el papel estuviera húmedo antes de exponer — asegúrate de que esté completamente seco.</p>
+      </div>
+
+      <div style="padding:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(200,218,234,0.1); border-radius:2px;">
+        <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--kraft); margin-bottom:6px;">La imagen quedó toda azul, sin contraste</div>
+        <p style="font-size:12px; color:rgba(200,218,234,0.7); line-height:1.7;">Se sobreexpuso — le dio demasiado sol. Reduce el tiempo en tu siguiente intento. Si usas un objeto muy grueso, el acrílico encima ayuda a prensar y mejorar el contacto, pero no cambia la sobreexposición: ahí lo que manda es el tiempo.</p>
+      </div>
+
+      <div style="padding:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(200,218,234,0.1); border-radius:2px;">
+        <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--kraft); margin-bottom:6px;">Los bordes del motivo quedaron borrosos o difusos</div>
+        <p style="font-size:12px; color:rgba(200,218,234,0.7); line-height:1.7;">El objeto no estaba en contacto directo con el papel. Asegúrate de prensar bien con el acrílico o las pinzas. Con objetos muy gruesos o irregulares cierto nivel de difuminado es inevitable — y puede ser muy bonito.</p>
+      </div>
+
+      <div style="padding:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(200,218,234,0.1); border-radius:2px;">
+        <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--kraft); margin-bottom:6px;">El azul se fue casi todo al enjuagar</div>
+        <p style="font-size:12px; color:rgba(200,218,234,0.7); line-height:1.7;">Pasó alguna de estas cosas: poca exposición, papel mojado antes de exponer, o enjuague demasiado largo. Prueba exponer más tiempo y limita el enjuague a 1-2 minutos. No olvides aplicar el atomizador de agua oxigenada — eso fija y profundiza el azul notablemente.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="firma-linea"></div>
+    <div class="footer-marca">Taller Axolote Azul</div>
+    <div class="footer-info">
+      Cianotipia artesanal · Ciudad de México<br>
+      @talleraxoloteazul
+    </div>
+    <div class="firma-linea"></div>
+  </div>
+
+</div>
+</body>
+</html>
